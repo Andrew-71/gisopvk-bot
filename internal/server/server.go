@@ -13,12 +13,15 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func RunHTTPServer(createHandler func(router chi.Router) http.Handler) *http.Server {
-	return RunHTTPServerOnAddr(":"+os.Getenv("PORT"), createHandler)
+func RunHTTPServer(createHandler func(router chi.Router) http.Handler) {
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		port = "8000" // Default value! Possibly panic instead?
+	}
+	RunHTTPServerOnAddr(":"+port, createHandler)
 }
 
-func RunHTTPServerOnAddr(addr string, createHandler func(router chi.Router) http.Handler) *http.Server {
-
+func RunHTTPServerOnAddr(addr string, createHandler func(router chi.Router) http.Handler) {
 	log := logs.DefaultLogger()
 
 	apiRouter := chi.NewRouter()
@@ -29,13 +32,11 @@ func RunHTTPServerOnAddr(addr string, createHandler func(router chi.Router) http
 
 	log.Info("Starting: HTTP server", "addr", addr)
 
-	srv := &http.Server{Addr: addr, Handler: rootRouter}
-	go func() {
-		if err := srv.ListenAndServe(); err != http.ErrServerClosed {
-			log.Error("Server failed: %v", err)
-		}
-	}()
-	return srv
+	err := http.ListenAndServe(addr, rootRouter)
+	if err != nil {
+		log.Error("Unable to start HTTP server")
+		panic(err)
+	}
 }
 
 func setMiddlewares(router *chi.Mux, log *slog.Logger) {

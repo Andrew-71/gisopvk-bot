@@ -14,7 +14,7 @@ import (
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
-	// (GET /reply)
+	// (POST /reply)
 	GetReply(w http.ResponseWriter, r *http.Request)
 }
 
@@ -22,7 +22,7 @@ type ServerInterface interface {
 
 type Unimplemented struct{}
 
-// (GET /reply)
+// (POST /reply)
 func (_ Unimplemented) GetReply(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
@@ -170,7 +170,7 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/reply", wrapper.GetReply)
+		r.Post(options.BaseURL+"/reply", wrapper.GetReply)
 	})
 
 	return r
