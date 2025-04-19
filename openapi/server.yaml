@@ -1,0 +1,454 @@
+openapi: 3.0.3
+info:
+  title: "GISOPVK-Bot"
+  description: "A chat bot to make registration and information access easier."
+  version: 0.1.0
+servers:
+- url: http://{hostname}:{port}/api/v1
+  variables:
+    hostname:
+      default: localhost
+    port:
+      default: "8080"
+security:
+  - bearerAuth: []
+
+paths:
+  /reply:
+    get:
+      operationId: getReply
+      description: "Get a bot reply to a message."
+      parameters:
+      - in: query
+        name: discipline_id
+        description: "Discipline ID of the material."
+        schema:
+          type: integer
+          example: 123
+        required: false
+      responses:
+        "200":
+          description: "The request is valid, whether the materials were found or not."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Materials"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /materials/{uuid}:
+    put:
+      operationId: putMaterial
+      description: "Create or update a material"
+      parameters:
+      - in: path
+        name: uuid
+        description: "Material UUID"
+        schema:
+          type: string
+          format: uuid
+          example: "44d5ad73-576e-4c31-bf09-b53f5c6137ba"
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutMaterial"
+      responses:
+        "201":
+          description: "The material has been successfully created or updated"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      operationId: getMaterial
+      description: "Get material by its UUID"
+      parameters:
+      - in: path
+        name: uuid
+        description: "Material UUID"
+        schema:
+          type: string
+          format: uuid
+          example: "44d5ad73-576e-4c31-bf09-b53f5c6137ba"
+        required: true
+      responses:
+        "200":
+          description: "The material has been successfully found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Material"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Material by the UUID not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  
+  /disciplines:
+    get:
+      operationId: getDisciplines
+      description: "Get all disciplines"
+      responses:
+        "200":
+          description: "Disciplines have been successfully obtained."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Disciplines"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /disciplines/{id}:
+    get:
+      operationId: getDiscipline
+      description: "Get a discipline by its ID"
+      parameters:
+      - in: path
+        name: id
+        description: "Discipline ID"
+        schema:
+          type: integer
+          example: 123
+        required: true
+      responses:
+        "200":
+          description: "The discipline have been successfully obtained."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Discipline"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Discipline by the ID not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /departments:
+    get:
+      operationId: getDepartments
+      description: "Get all departments"
+      responses:
+        "200":
+          description: "Departments have been successfully obtained."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Departments"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /departments/{id}:
+    get:
+      operationId: getDepartment
+      description: "Get a department by its ID"
+      parameters:
+      - in: path
+        name: id
+        description: "Department ID"
+        schema:
+          type: integer
+          example: 123
+        required: true
+      responses:
+        "200":
+          description: "The department have been successfully obtained."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+        "400":
+          description: "Some data in the request is invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "JWT token is not specified"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "JWT token is invalid or expired"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Department by the ID not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    
+  schemas:
+    Material:
+      type: object
+      description: "Educational material as a unit of information storage in Apollo"
+      properties:
+        uuid:
+          type: string
+          description: "Uniquely identify material"
+          format: uuid
+          example: "44d5ad73-576e-4c31-bf09-b53f5c6137ba"
+        name:
+          type: string
+          description: "Human-readable name of the material"
+          example: "Методическое пособие для домашнего задания курса физики 2 семестра"
+        description:
+          type: string
+          description: "Optional description of the content of the material"
+          example:
+            "Методическое пособие описывает методы решения различных вариантов домашнего
+             задания 2 семестра курса физики ФН4."
+        url:
+          type: string
+          description: "Resource URL"
+          example: "https://github.com/bmstu-itstech/"
+        author:
+          type: string
+          description: "Telegram is the username of the author if is not anonymous"
+          example: "@username"
+        views:
+          type: integer
+          description: "Number of GET requests for the material"
+          example: 1234
+        department_id:
+          type: integer
+          description:
+            "ID of the department that teaches the discipline the material belongs to.
+             The same discipline can be taught in different departments."
+          example: 12
+        discipline_id:
+          type: integer
+          description: "ID of the discipline the material belongs to"
+          example: 123
+        created_at:
+          type: string
+          format: date-time
+          description: "Time and date of creation of the material"
+          example: "2024-10-19T14:50:04Z"
+      required:
+        - uuid
+        - name
+        - url
+        - views
+        - department_id
+        - discipline_id
+        - created_at
+
+    Materials:
+      type: array
+      items:
+        $ref: "#/components/schemas/Material"
+
+    PutMaterial:
+      type: object
+      description: "Body of the PUT request to create educational material"
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: "Uniquely identify material"
+          example: "44d5ad73-576e-4c31-bf09-b53f5c6137ba"
+        name:
+          type: string
+          description: "Human-readable name of the material"
+          example: "Методическое пособие для домашнего задания курса физики 2 семестра"
+        description:
+          type: string
+          description: "Optional description of the content of the material"
+          example:
+            "Методическое пособие описывает методы решения различных вариантов домашнего
+             задания 2 семестра курса физики ФН4."
+        url:
+          type: string
+          description: "Resource URL"
+          example: "https://github.com/bmstu-itstech/"
+        author:
+          type: string
+          description: "Telegram is the username of the author if is not anonymous"
+          example: "@username"
+        department_id:
+          type: integer
+          description:
+            "ID of the department that teaches the discipline the material belongs to.
+             The same discipline can be taught in different departments"
+          example: 12
+        discipline_id:
+          type: integer
+          description: "ID of the discipline the material belongs to"
+          example: 123
+      required:
+        - uuid
+        - name
+        - url
+        - department_id
+        - discipline_id
+
+    Department: 
+      type: object
+      description: "Description of the department"
+      properties:
+        id:
+          type: integer
+          description: "Unique department number"
+          example: 12
+        code:
+          type: string
+          description: "Short name of the department"
+          example: "ИУ13"
+        name:
+          type: string
+          description: "Full name of the department"
+          example: "Прикладная барсукология и пчеловодство"
+      required:
+        - id
+        - code
+        - name
+
+    Departments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Department"
+
+    Discipline:
+      type: object
+      description: "Description of the discipline taught in the BMSTU"
+      properties:
+        id:
+          type: integer
+          description: "Unique discipline number"
+          example: 123
+        name:
+          type: string
+          description: "Full name of the discipline"
+          example: "Основы барсукологии"
+      required:
+        - id
+        - name
+
+    Disciplines:
+      type: array
+      items:
+        $ref: "#/components/schemas/Discipline"
+
+    Error:
+      type: object
+      description: "Error description"
+      properties:
+        message:
+          type: string
+          example: "Field \"name\" is missing"
+      required:
+        - message
