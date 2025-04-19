@@ -3,7 +3,7 @@ package mock
 import (
 	"strings"
 
-	"git.a71.su/Andrew71/gisopvk-bot/internal/domain"
+	"github.com/Andrew-71/gisopvk-bot/internal/domain"
 )
 
 var RegLink = "https://gisopvk.ru/media/files/filepublic/d/a/a/daa6eeceb30a1625.как-прописать-права-доступа-сотруднику.pdf"

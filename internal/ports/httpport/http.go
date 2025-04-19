@@ -3,12 +3,8 @@ package httpport
 import (
 	"net/http"
 
-	// "github.com/bmstu-itstech/apollo/internal/app/query"
-	// "github.com/bmstu-itstech/apollo/internal/domain/material"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/app"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/app/query"
+	"github.com/Andrew-71/gisopvk-bot/internal/app"
 	"github.com/go-chi/render"
-	// openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 type Server struct {
@@ -20,14 +16,20 @@ func NewHTTPServer(app *app.Application) *Server {
 }
 
 func (s Server) GetReply(w http.ResponseWriter, r *http.Request) {
-	q, err := s.app.Queries.GetReply.Handle(r.Context(), query.Query{})
-}
-
-func (s Server) GetDepartments(w http.ResponseWriter, r *http.Request) {
-	q, err := s.app.Queries.GetDepartments.Handle(r.Context(), query.GetDepartments{})
-	if err != nil {
-		httpError(w, r, err, http.StatusInternalServerError)
+	var q Query
+	if err := render.Decode(r, &q); err != nil {
+		httpError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	render.JSON(w, r, mapDepartmentsToApi(q))
+	reply, err := s.app.Queries.GetReply.Handle(r.Context(), q.FromApi())
+	if err != nil {
+		httpError(w, r, err, http.StatusBadRequest) // TODO: Possibly a 500
+		return
+	}
+	render.JSON(w, r, mapReplyToApi(reply))
+}
+
+func httpError(w http.ResponseWriter, r *http.Request, err error, code int) {
+	w.WriteHeader(code)
+	render.JSON(w, r, Error{Message: err.Error()})
 }

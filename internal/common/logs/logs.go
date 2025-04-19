@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"git.a71.su/Andrew71/gisopvk-bot/internal/common/logs/handlers/slogpretty"
+	"github.com/Andrew-71/gisopvk-bot/internal/common/logs/handlers/slogpretty"
 )
 
 const (

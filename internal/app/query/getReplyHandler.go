@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
-	"git.a71.su/Andrew71/gisopvk-bot/internal/common/decorator"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/domain"
+	"github.com/Andrew-71/gisopvk-bot/internal/common/decorator"
+	"github.com/Andrew-71/gisopvk-bot/internal/domain"
 )
 
 // NOTE: CQS compels us to duplicate the types

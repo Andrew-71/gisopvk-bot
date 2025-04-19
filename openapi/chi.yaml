@@ -1,0 +1,5 @@
+package: httpport
+output: ️openapi_server.gen.go
+generate:
+  chi-server: true
+  models: false

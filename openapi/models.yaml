@@ -1,0 +1,4 @@
+package: httpport
+output: ️openapi_types.gen.go
+generate:
+  models: true

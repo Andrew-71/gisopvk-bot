@@ -3,10 +3,9 @@ package main
 import (
 	"net/http"
 
-	// "github.com/bmstu-itstech/apollo/internal/common/server"
-	// "github.com/bmstu-itstech/apollo/internal/ports/httpport"
-	// "github.com/bmstu-itstech/apollo/internal/service"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/service"
+	"github.com/Andrew-71/gisopvk-bot/internal/ports/httpport"
+	"github.com/Andrew-71/gisopvk-bot/internal/server"
+	"github.com/Andrew-71/gisopvk-bot/internal/service"
 	"github.com/go-chi/chi/v5"
 )
 

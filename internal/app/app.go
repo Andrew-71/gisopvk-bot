@@ -1,6 +1,6 @@
 package app
 
-import "git.a71.su/Andrew71/gisopvk-bot/internal/app/query"
+import "github.com/Andrew-71/gisopvk-bot/internal/app/query"
 
 type Application struct {
 	Commands Commands

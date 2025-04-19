@@ -8,11 +8,11 @@ import (
 	// "github.com/bmstu-itstech/apollo/internal/app/query"
 	// "github.com/bmstu-itstech/apollo/internal/common/logs"
 	// "github.com/bmstu-itstech/apollo/internal/domain/material"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/app"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/app/query"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/common/logs"
-	"git.a71.su/Andrew71/gisopvk-bot/internal/domain"
-	mock_bot "git.a71.su/Andrew71/gisopvk-bot/internal/infra/mock"
+	"github.com/Andrew-71/gisopvk-bot/internal/app"
+	"github.com/Andrew-71/gisopvk-bot/internal/app/query"
+	"github.com/Andrew-71/gisopvk-bot/internal/common/logs"
+	"github.com/Andrew-71/gisopvk-bot/internal/domain"
+	mock_bot "github.com/Andrew-71/gisopvk-bot/internal/infra/mock"
 )
 
 type Cleanup func()
