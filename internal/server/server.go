@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func RunHTTPServer(createHandler func(router chi.Router) http.Handler) {
@@ -29,6 +30,7 @@ func RunHTTPServerOnAddr(addr string, createHandler func(router chi.Router) http
 
 	rootRouter := chi.NewRouter()
 	rootRouter.Mount("/api", createHandler(apiRouter))
+	rootRouter.Handle("/metrics", promhttp.Handler())
 
 	log.Info("Starting: HTTP server", "addr", addr)
 

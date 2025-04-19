@@ -37,6 +37,7 @@ type getReplyHandler struct {
 func NewGetReplyHandler(
 	bot domain.Bot,
 	logger *slog.Logger,
+	metricsClient decorator.MetricsClient,
 ) GetReplyHandler {
 	if bot == nil {
 		panic("bot is nil")
@@ -44,6 +45,7 @@ func NewGetReplyHandler(
 	return decorator.ApplyQueryDecorators[Query, Reply](
 		getReplyHandler{bot: bot},
 		logger,
+		metricsClient,
 	)
 }
 

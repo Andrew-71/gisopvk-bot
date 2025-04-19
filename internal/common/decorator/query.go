@@ -8,9 +8,13 @@ import (
 func ApplyQueryDecorators[H any, R any](
 	handler QueryHandler[H, R],
 	logger *slog.Logger,
+	metricsClient MetricsClient,
 ) QueryHandler[H, R] {
 	return queryLoggingDecorator[H, R]{
-		base:   handler,
+		base:   queryMetricsDecorator[H, R]{
+			base: handler,
+			client: metricsClient,
+		},
 		logger: logger,
 	}
 }
