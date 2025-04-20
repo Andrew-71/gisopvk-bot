@@ -23,3 +23,6 @@ go.work.sum
 
 # env file
 .env
+
+# internal chatbot prompt
+/internal/infra/ai/prompt.txt
